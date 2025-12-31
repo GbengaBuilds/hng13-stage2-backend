@@ -6,6 +6,15 @@
 # dotenv files
 .env
 
+# Environment files
+.env.development
+.env.staging
+.env.production
+.env
+
+# Keep the example file
+!.env.example
+
 # User-specific files
 *.rsuser
 *.suo
@@ -488,3 +497,12 @@ $RECYCLE.BIN/
 **/cache/*.jpg
 **/cache/*.jpeg
 !**/cache/.gitkeep
+
+# Environment files with secrets
+.env.development
+.env.staging
+.env.production
+.env
+
+# Docker volumes data
+mysql-data*/

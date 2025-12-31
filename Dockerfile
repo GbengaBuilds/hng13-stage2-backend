@@ -30,6 +30,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     libfreetype6 \
+    libgdiplus \
+    libc6-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy published app

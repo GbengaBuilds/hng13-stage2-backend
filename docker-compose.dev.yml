@@ -1,19 +1,22 @@
 version: '3.8'
 
 services:
+  # Load environment variables from .env.development
   api:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "${API_PORT}:8080"
+    env_file:
+      - .env.development
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - MYSQLHOST=db
       - MYSQLPORT=3306
-      - MYSQLDATABASE=countrycurrency
-      - MYSQLUSER=appuser
-      - MYSQLPASSWORD=AppPassword123!
+      - MYSQLDATABASE=${MYSQL_DATABASE}
+      - MYSQLUSER=${MYSQL_USER}
+      - MYSQLPASSWORD=${MYSQL_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
@@ -30,16 +33,16 @@ services:
   db:
     image: mysql:8.0
     environment:
-      - MYSQL_ROOT_PASSWORD=RootPassword123!
-      - MYSQL_DATABASE=countrycurrency
-      - MYSQL_USER=appuser
-      - MYSQL_PASSWORD=AppPassword123!
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+     - mysql-data-dev:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pRootPassword123!"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -49,7 +52,9 @@ services:
       - app-network
 
 volumes:
-  mysql-data:
+  mysql-data-dev:
+    driver: local
+
 
 networks:
   app-network:
