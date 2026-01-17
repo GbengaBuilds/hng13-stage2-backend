@@ -1,0 +1,74 @@
+{
+  "name": "Country Currency API",
+  "dockerComposeFile": [
+    "../docker-compose.dev.yml"
+  ],
+  "service": "api",
+  "workspaceFolder": "/src",
+  
+  // Configure what to do after the container is created
+  "postCreateCommand": "dotnet restore",
+  
+  // Configure tool-specific properties
+  "customizations": {
+    "vscode": {
+      // Set *default* container specific settings.json values on container create
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "dotnet.defaultSolution": "CountryCurrencyAPI.sln"
+      },
+      
+      // Add the IDs of extensions you want installed when the container is created
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "formulahendry.dotnet-test-explorer",
+        "jongrant.csharpsortusings",
+        "kreativ-software.csharpextensions",
+        "EditorConfig.EditorConfig",
+        "humao.rest-client"
+      ]
+    }
+  },
+  
+  // Forward ports for API and database
+  "forwardPorts": [
+    8080,
+    3306
+  ],
+  
+  // Label ports for clarity
+  "portsAttributes": {
+    "8080": {
+      "label": "API",
+      "onAutoForward": "notify"
+    },
+    "3306": {
+      "label": "MySQL Database",
+      "onAutoForward": "silent"
+    }
+  },
+  
+  // Use 'postAttachCommand' to run commands after the container is running
+  "postAttachCommand": "dotnet build",
+  
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root
+  // "remoteUser": "root",
+  
+  // Set environment variables
+  "remoteEnv": {
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "ASPNETCORE_URLS": "http://+:8080"
+  },
+  
+  // Features to add to the dev container
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "9.0",
+      "installUsingApt": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
+}

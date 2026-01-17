@@ -6,8 +6,7 @@
 # dotenv files
 .env
 
-# Environment files
-.env.development
+# Environment files with secrets
 .env.staging
 .env.production
 .env
@@ -498,8 +497,7 @@ $RECYCLE.BIN/
 **/cache/*.jpeg
 !**/cache/.gitkeep
 
-# Environment files with secrets
-.env.development
+# Environment files with secrets (production/staging only)
 .env.staging
 .env.production
 .env
